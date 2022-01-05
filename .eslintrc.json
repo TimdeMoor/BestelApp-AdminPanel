@@ -26,10 +26,10 @@
             "warn",
             "tab"
         ],
-        "linebreak-style": [
-            "warn",
-            "unix"
-        ],
+        //"linebreak-style": [
+        //    "warn",
+        //    "unix"
+        //],
         "quotes": [
             "warn",
             "double"
