@@ -1,4 +1,4 @@
-import React, {FormEventHandler, useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import Table from "react-bootstrap/Table"
 import {Dish} from "./Entities"
 import Button from "react-bootstrap/Button"
@@ -7,16 +7,14 @@ import Form from "react-bootstrap/Form"
 import requester from "../requester"
 
 
-export default function DishList(props: {
-
-}) {
+export default function DishList() {
 
 	const[Dishes, setDishes] = useState<Dish[]>([])
 	const[AddModalVisible, setAddModalVisible] = useState<boolean>(false)
 	const[EditModalVisible, setEditModalVisible] = useState<boolean>(false)
 	const[DeleteModalVisible, setDeleteModalVisible] = useState<boolean>(false)
-	const[ActiveModalItemId, setActiveModalItemId] = useState<number>(0)
-	const[FormData, setFormData] = useState("")
+	//const[ActiveModalItemId, setActiveModalItemId] = useState<number>(0)
+	//const[FormData, setFormData] = useState("")
 
 	async function getAllFromApi(){
 		const response = await requester.get("/dishes")
@@ -44,9 +42,9 @@ export default function DishList(props: {
 		setDeleteModalVisible(!DeleteModalVisible)
 	}
 
-	function handleSubmit(e: FormEventHandler): void{
-		console.log(e)
-	}
+	//function handleSubmit(e: FormEventHandler): void{
+	//	console.log(e)
+	//}
 
 	function getDishFromForm(): Dish{
 		return {
