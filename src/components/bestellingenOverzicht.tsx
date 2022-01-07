@@ -13,7 +13,7 @@ export default function BestellingenOverzicht(){
 			axios.get("http://localhost:8080/api/v1/orders/incomplete")
 				.then(res =>
 					setOrders(res.data))
-		}, 5000)
+		}, 1000)
 	}, [])
 
 	return (
