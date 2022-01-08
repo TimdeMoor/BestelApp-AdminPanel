@@ -24,4 +24,4 @@ jobs:
       run: docker build . --file dockerfile --tag testimage
       
     - name: Push to dockerhub
-      run: docker push ${{secrets.DOCKER_USERNAME}}/testimage
+      run: docker push ${{secrets.DOCKER_USERNAME}}/s3-individueel-project-images:latest
