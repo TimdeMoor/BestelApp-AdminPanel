@@ -1,8 +1,10 @@
-FROM node:14
+FROM node:14-alpine3.10 as build
+
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 COPY . .
-ENV PORT=3000
-EXPOSE 3000
-CMD ["npm", "start"]
+RUN npm run build
+
+FROM alpine:3.14.2
+COPY --from=build /app /var/www/html
