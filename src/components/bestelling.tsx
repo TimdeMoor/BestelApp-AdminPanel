@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react"
 import BestelRegel from "./bestelRegel"
-import axios from "axios"
 import Table from "react-bootstrap/Table"
 import Button from "react-bootstrap/Button"
 import {Order, OrderItem} from "./Entities"
+import requester from "../requester";
 
 export default function Bestelling(props: {
 	order: Order,
@@ -11,11 +11,10 @@ export default function Bestelling(props: {
 	const [bestelItems, setBestelItems] = useState<OrderItem[]>([])
 
 	useEffect(() =>{
-		axios.get("http://localhost:8080/api/v1/order-items/" + props.order.id)
+		requester.get(`order-items/${props.order.id}`)
 			.then(res => {
 				setBestelItems(res.data)
-			}
-			)
+			})
 	},[])
 
 
