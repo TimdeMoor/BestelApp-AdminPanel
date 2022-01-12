@@ -4,33 +4,34 @@ import {Order} from "./Entities"
 import Container from "react-bootstrap/Container"
 import Card from "react-bootstrap/Card"
 import {ListGroup} from "react-bootstrap"
-import requester from "../requester";
+import requester from "../requester"
+import config from "../Config"
 
-export default function BestellingenOverzicht(){
-	const [orders, setOrders] = useState<Order[]>([])
+export default function BestellingenOverzicht(props:{
+	bestellingen:Order[]|undefined
+}){
+	const [orders, setOrders] = useState<Order[]>(props.bestellingen ? props.bestellingen : [])
 	useEffect(() => {
 		setInterval(() => {
 			requester.get("orders/incomplete")
 				.then(res =>
 					setOrders(res.data))
-		}, 1000)
+		}, config.RefreshDelayMS)
 	}, [])
 
 	return (
-		<Container>{
-			orders.map(o => {
-				return(<Card key={o.id}>
-					<Card.Body>
-						<Card.Title><h3>Bestelling</h3></Card.Title>
-						<ListGroup>
-							<Bestelling key={o.id} order={o}/>
-						</ListGroup>
-					</Card.Body>
-					<Card.Footer>
-
-					</Card.Footer>
-				</Card>)
-			})
-		}</Container>
+		<Container>
+			<h1>Bestellingen</h1>
+			{
+				orders.map(o => {
+					return(<Card key={o.id} data-testid={`Bestelling ${o.id}`}>
+						<Card.Body>
+							<ListGroup>
+								<Bestelling key={o.id} order={o}/>
+							</ListGroup>
+						</Card.Body>
+					</Card>)
+				})
+			}</Container>
 	)
 }

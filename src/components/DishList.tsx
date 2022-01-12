@@ -3,7 +3,6 @@ import Table from "react-bootstrap/Table"
 import {Dish} from "./Entities"
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
-import Form from "react-bootstrap/Form"
 import requester from "../requester"
 
 
@@ -11,7 +10,6 @@ export default function DishList() {
 
 	const[Dishes, setDishes] = useState<Dish[]>([])
 	const[AddModalVisible, setAddModalVisible] = useState<boolean>(false)
-	const[EditModalVisible, setEditModalVisible] = useState<boolean>(false)
 	const[DeleteModalVisible, setDeleteModalVisible] = useState<boolean>(false)
 	const[DeleteDishId, setDeleteDishId] = useState<number>(0)
 	const[AddDishNaam, setAddDishNaam] = useState<string>("")
@@ -37,11 +35,8 @@ export default function DishList() {
 		setAddModalVisible(!AddModalVisible)
 	}
 
-	function toggleEditModal(): void{
-		setEditModalVisible(!EditModalVisible)
-	}
-
-	function toggleDeleteModal(): void{
+	function toggleDeleteModal(dishId: number): void{
+		setDeleteDishId(dishId)
 		setDeleteModalVisible(!DeleteModalVisible)
 	}
 
@@ -58,7 +53,6 @@ export default function DishList() {
 	}
 
 	function handleDeleteDishOnClick(){
-		setDeleteDishId(3)
 		DeleteDish()
 	}
 
@@ -95,8 +89,7 @@ export default function DishList() {
 								<td>{dish.name}</td>
 								<td>€{dish.price}</td>
 								<td>
-									<Button variant={"success"} onClick={toggleEditModal} key={dish.id}>Edit</Button>
-									<Button variant={"danger"} onClick={toggleDeleteModal} key={dish.id}>Delete</Button>
+									<Button variant={"danger"} onClick={() => {toggleDeleteModal(dish.id)}} key={dish.id} style={{color:"#000000"}}>Delete</Button>
 								</td>
 							</tr>
 						)
@@ -114,17 +107,20 @@ export default function DishList() {
 				<Modal.Body>
 					<label>Gerecht Naam</label>
 					<input
+						data-testid={"inputNaam"}
 						type="text"
 						value={AddDishNaam}
 						onChange={(e) => handleAddDishNameOnChange(e)}
 					/><br/>
 					<label>Gerecht Prijs</label>
 					<input
+						data-testid={"inputPrijs"}
 						type="text"
 						value={AddDishPrijs}
 						onChange={(e) => handleAddDishPriceOnChange(e)}
 					/><br/>
 					<Button
+						data-testid={"toevoegenButton"}
 						variant={"success"}
 						type={"button"}
 						onClick={handleAddDishOnClick}
@@ -137,38 +133,13 @@ export default function DishList() {
 				</Modal.Footer>
 			</Modal>
 
-			<Modal show={EditModalVisible}>
-				<Modal.Header>
-					<h1>Gerecht Bewerken</h1>
-					<Button
-						variant={"danger"}
-						onClick={toggleEditModal}
-					>X</Button>
-				</Modal.Header>
-				<Modal.Body>
-					<Form>
-						<Form.Group className="mb-3" controlId="formBasicText">
-							<Form.Label>Naam</Form.Label>
-							<Form.Control type="text" placeholder="Naam" />
-						</Form.Group>
-						<Button variant="success" type="submit">
-							Opslaan
-						</Button>
-					</Form>
-				</Modal.Body>
-				<Modal.Footer>
-
-				</Modal.Footer>
-			</Modal>
-
-
 
 			<Modal show={DeleteModalVisible}>
 				<Modal.Header>
 					<h1>Gerecht Wissen?</h1>
 					<Button
 						variant={"danger"}
-						onClick={toggleDeleteModal}
+						onClick={() => {toggleDeleteModal(0)}}
 					>X</Button>
 				</Modal.Header>
 				<Modal.Body>

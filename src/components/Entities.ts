@@ -1,6 +1,6 @@
 export interface Dish {
     id: number,
-    name: String,
+    name: string,
     price: number,
 }
 
@@ -21,5 +21,5 @@ export interface OrderItem {
     dishId: number,
     orderId: number,
     amount: number,
-    comment: String,
+    comment: string,
 }

@@ -3,7 +3,7 @@ import BestelRegel from "./bestelRegel"
 import Table from "react-bootstrap/Table"
 import Button from "react-bootstrap/Button"
 import {Order, OrderItem} from "./Entities"
-import requester from "../requester";
+import requester from "../requester"
 
 export default function Bestelling(props: {
 	order: Order,
@@ -17,24 +17,43 @@ export default function Bestelling(props: {
 			})
 	},[])
 
+	function handleCompleteOrderOnClick(orderId: number){
+		completeOrder(orderId)
+	}
+
+	function completeOrder(orderId: number): void{
+		requester.patch(`orders/complete/${orderId}`)
+	}
 
 	return(
 		<div>
 			<Table>
-				<tr>
-					<td>
-						<ul>
-							{bestelItems.map(oi => {
-								if (oi != null){
-									return <BestelRegel orderItem={oi}/>
-								}
-							})}
-						</ul>
-					</td>
-					<td>
-						<Button variant={"success"}>Gereed</Button>
-					</td>
-				</tr>
+				<thead>
+					<tr>
+						<td colSpan={2}><h3>Bestelling: {props.order.id}</h3></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<ul>
+								{bestelItems.map(oi => {
+									if (oi != null){
+										return <BestelRegel orderItem={oi}/>
+									}
+								})}
+							</ul>
+						</td>
+						<td>
+							<Button
+								key={props.order.id}
+								variant={"success"}
+								style={{color:"#000000"}}
+								onClick={() => handleCompleteOrderOnClick(props.order.id)}
+							>Gereed</Button>
+						</td>
+					</tr>
+				</tbody>
 			</Table>
 		</div>
 	)

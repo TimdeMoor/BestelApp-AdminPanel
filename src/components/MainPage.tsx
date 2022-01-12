@@ -13,8 +13,8 @@ export default function MainPage() {
 
 	return (
 		<div>
-			<Button variant={"success"} onClick={ToggleView}>Naar {AdminVisible ? "Gerechten" : "Bestellingen"} overzicht</Button>
-			{AdminVisible ? <BestellingenOverzicht/> : <DishList/>}
+			<Button data-testid={"adminButton"} variant={"success"} onClick={ToggleView}>Naar {AdminVisible ? "bestellingen" : "gerechten"} overzicht</Button>
+			{AdminVisible ? <DishList/> : <BestellingenOverzicht bestellingen={[]}/>}
 		</div>
 	)
 }

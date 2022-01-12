@@ -1,14 +1,20 @@
 import axios from "axios"
+import config from "./Config"
+import {Order} from "./components/Entities";
 
-//TODO: Change api settings to config file
-const apiHost = "localhost"
-const apiPort = 8080
-const apiVersion = 1
+const apiHost = config.BackEndAPIHost
+const apiPort = config.BackEndAPIPort
+const apiVersion = config.BackEndAPIVersion
 
 export const ApiDestination = `http://${apiHost}:${apiPort}/api/v${apiVersion}`
 
 const requester = axios.create({
 	baseURL: ApiDestination
 })
+
+
+export async function getOrders(): Promise<Array<Order>>{
+	return (await requester.get("/orders/incomplete")).data
+}
 
 export default requester
